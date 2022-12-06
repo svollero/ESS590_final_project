@@ -249,7 +249,7 @@ def clip_boxes_graph(boxes, window):
     return clipped
 
 
-class ProposalLayer(KE.Layer):
+class ProposalLayer(KL.Layer):
     """Receives anchor scores and selects a subset to pass as proposals
     to the second stage. Filtering is done based on anchor scores and
     non-max suppression to remove overlaps. It also applies bounding
@@ -336,7 +336,7 @@ def log2_graph(x):
     return tf.log(x) / tf.log(2.0)
 
 
-class PyramidROIAlign(KE.Layer):
+class PyramidROIAlign(KL.Layer):
     """Implements ROI Pooling on multiple levels of the feature pyramid.
     Params:
     - pool_shape: [pool_height, pool_width] of the output pooled regions. Usually [7, 7]
@@ -609,7 +609,7 @@ def detection_targets_graph1(proposals, gt_class_ids, gt_boxes, gt_masks, config
     return rois, roi_gt_class_ids, deltas, masks
 
 
-class DetectionTargetLayer1(KE.Layer):
+class DetectionTargetLayer1(KL.Layer):
     """Subsamples proposals and generates target box refinement, class_ids,
     and masks for each.
     Inputs:
@@ -762,7 +762,7 @@ def detection_targets_graph2(proposals, gt_class_ids, gt_boxes, gt_masks, config
 
     return rois, roi_gt_class_ids, deltas, masks
 
-class DetectionTargetLayer2(KE.Layer):
+class DetectionTargetLayer2(KL.Layer):
 
 
     def __init__(self, config, **kwargs):
@@ -910,7 +910,7 @@ def detection_targets_graph3(proposals, gt_class_ids, gt_boxes, gt_masks, config
     masks = tf.pad(masks, [[0, N + P], (0, 0), (0, 0)])
 
     return rois, roi_gt_class_ids, deltas, masks
-class DetectionTargetLayer3(KE.Layer):
+class DetectionTargetLayer3(KL.Layer):
 
     def __init__(self, config, **kwargs):
         super(DetectionTargetLayer3, self).__init__(**kwargs)
@@ -1047,7 +1047,7 @@ def refine_detections_graph1(rois, probs, deltas, window, config):
     return detections
 
 
-class DetectionLayer1(KE.Layer):
+class DetectionLayer1(KL.Layer):
     """Takes classified proposal boxes and their bounding box deltas and
     returns the final detection boxes.
     Returns:
@@ -1132,7 +1132,7 @@ def refine_detections_graph2(rois, probs, deltas, window, config):
     #refined_rois=tf.concat([rois,refined_rois],axis=0)
     return refined_rois
 
-class DetectionLayer2(KE.Layer):
+class DetectionLayer2(KL.Layer):
 
     def __init__(self, config=None, **kwargs):
         super(DetectionLayer2, self).__init__(**kwargs)
